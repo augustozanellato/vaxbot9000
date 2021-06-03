@@ -19,7 +19,10 @@ def fill_browser(browser):
     browser.fill('cod_fiscale', config["cf"])
     browser.fill('num_tessera', config["num_team"])
     browser.find_by_css('div.form-group:nth-child(4) > div:nth-child(2) > input:nth-child(1)').first.check()
-    browser.evaluate_script('inviacf(); scegliserv(641);')
+    browser.evaluate_script('inviacf();')
+    sleep(0.1)
+    if "servizio" in browser.find_by_css('#corpo2 > h2').text:
+        browser.evaluate_script('scegliserv(641)')
 
 def send_message(text):
     if config['use_tg']:
