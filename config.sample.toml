@@ -1,0 +1,7 @@
+az = 'ulss6'
+cf = 'your_cf'
+num_team = 'last_6_digits_team'
+use_tg = true
+tg_token = 'your_tg_bot_token'
+tg_chat = 'tg_chat_id'
+spawn_new_browser_on_slot_found = false
