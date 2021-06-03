@@ -1,7 +1,6 @@
 from splinter import Browser
 from telegram import Bot
 from time import sleep
-import logging
 import toml
 import os.path
 
@@ -30,15 +29,19 @@ def send_message(text):
 
 old_slots = []
 while True:
-    fill_browser(browser)
-    available_slots = [button.html.split('<br>')[0].strip() for button in browser.find_by_css('#corpo2 button.btn-primary:not(.btn-back') if 'onclick' in button.outer_html]
-    if available_slots != old_slots:
-        print(f'slot change: {available_slots}')
-        if len(available_slots) == 0:
-            send_message(f'Slot terminati!')
-        else:
-            if config["spawn_new_browser_on_slot_found"]:
-                browser = Browser('firefox')
-            send_message(f'Slot disponibili:{newline}{newline.join(available_slots)}')
-    old_slots = available_slots
-    sleep(0.1)
+    try:
+        fill_browser(browser)
+        available_slots = [button.html.split('<br>')[0].strip() for button in browser.find_by_css('#corpo2 button.btn-primary:not(.btn-back') if 'onclick' in button.outer_html]
+        if available_slots != old_slots:
+            print(f'slot change: {available_slots}')
+            if len(available_slots) == 0:
+                send_message(f'Slot terminati!')
+            else:
+                if config["spawn_new_browser_on_slot_found"]:
+                    browser = Browser('firefox')
+                send_message(f'Slot disponibili:{newline}{newline.join(available_slots)}')
+        old_slots = available_slots
+    except Exception as e:
+        print(e)
+    finally:
+        sleep(0.1)
