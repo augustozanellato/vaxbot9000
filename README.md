@@ -10,6 +10,7 @@
 1. `poetry install`
 1. Copy `config.sample.toml` to `config.toml` and edit the following parameters:
     - `az` your local ULSS (example `ulss6`)
+    - `service_id` service code you're interested in (can be found by initiating a reservation and when you're asked to choose a service you inspect the service button and check what's the argument to `scegliserv` called by the button's `onclick` attribute)
     - `cf` your Italian fiscal code
     - `num_team` last six digits of your TEAM card
     - `use_tg` wheter to use Telegram to send notifications

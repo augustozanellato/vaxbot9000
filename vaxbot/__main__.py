@@ -17,11 +17,11 @@ def fill_browser(browser):
     browser.visit(f'https://vaccinicovid.regione.veneto.it/{config["az"]}')
     browser.fill('cod_fiscale', config["cf"])
     browser.fill('num_tessera', config["num_team"])
-    browser.find_by_css('div.form-group:nth-child(4) > div:nth-child(2) > input:nth-child(1)').first.check()
+    browser.find_by_css('div.form-group:nth-child(5) > div:nth-child(2) > input:nth-child(1)').first.check()
     browser.evaluate_script('inviacf();')
     sleep(0.3)
     if "servizio" in browser.find_by_css('#corpo2 > h2').text:
-        browser.evaluate_script('scegliserv(641)')
+        browser.evaluate_script(f'scegliserv({config["service_id"]})')
 
 def send_message(text):
     if config['use_tg']:
