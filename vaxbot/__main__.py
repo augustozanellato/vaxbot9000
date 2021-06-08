@@ -11,8 +11,10 @@ if config['use_tg']:
 browser = Browser('firefox', headless=not config['spawn_new_browser_on_slot_found'])
 newline = '\n'
 
+def is_on_service_choice(browser: Browser):
+    return "servizio" in browser.find_by_css('#corpo2 > h2').text
 
-def fill_browser(browser):
+def fill_browser(browser: Browser):
     global config
     browser.visit(f'https://vaccinicovid.regione.veneto.it/{config["az"]}')
     browser.fill('cod_fiscale', config["cf"])
@@ -20,8 +22,10 @@ def fill_browser(browser):
     browser.find_by_css('div.form-group:nth-child(5) > div:nth-child(2) > input:nth-child(1)').first.check()
     browser.evaluate_script('inviacf();')
     sleep(0.3)
-    if "servizio" in browser.find_by_css('#corpo2 > h2').text:
+    if is_on_service_choice(browser):
         browser.evaluate_script(f'scegliserv({config["service_id"]})')
+    if is_on_service_choice(browser):
+        raise Exception("Something's wrong with the backend, skipping.")
 
 def send_message(text):
     if config['use_tg']:
@@ -42,6 +46,6 @@ while True:
                 send_message(f'Slot disponibili:{newline}{newline.join(available_slots)}')
         old_slots = available_slots
     except Exception as e:
-        print(e)
+        print(f"{type(e).__name__}: {e}")
     finally:
         sleep(0.6)
