@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vaxbot"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 authors = ["Augusto Zanellato <augusto.zanellato@gmail.com>"]
 
@@ -10,10 +10,28 @@ splinter = "^0.14.0"
 selenium = "^3.141.0"
 toml = "^0.10.2"
 python-telegram-bot = "^13.5"
+requests = "^2.25.1"
+beautifulsoup4 = "^4.9.3"
+lxml = "^4.6.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+black = "^21.5b2"
+isort = "^5.8.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+line_length = 120
+wrap_length = 120
+py_version = 39
+color_output = true
+balanced_wrapping = true
+
+[tool.black]
+line-length = 120
+target-version = ['py38'] #doesn't support py39
+include = '\.pyi?$'
