@@ -6,6 +6,7 @@ from time import sleep
 import toml
 from bs4 import BeautifulSoup
 from requests import Session
+from requests.models import Response
 
 config_filename = "config.toml"
 if len(sys.argv) > 1:
@@ -38,19 +39,27 @@ def send_message(text):
         bot.send_message(config["tg_chat"], text)
 
 
+def raise_on_error(response: Response) -> Response:
+    response.raise_for_status()
+    return response
+
+
 old_slots = []
 while True:
     try:
         session = Session()
-        session.post(
-            f"{base_url}/azione/controllocf",
-            data={
-                "cod_fiscale": config["cf"],
-                "num_tessera": config["num_team"],
-            },
+        raise_on_error(
+            session.post(
+                f"{base_url}/azione/controllocf",
+                data={
+                    "cod_fiscale": config["cf"],
+                    "num_tessera": config["num_team"],
+                },
+            )
         )
         slots_soup = BeautifulSoup(
-            session.post(f'{base_url}/azione/sceglisede/servizio/{config["service_id"]}').content, "lxml"
+            raise_on_error(session.post(f'{base_url}/azione/sceglisede/servizio/{config["service_id"]}')).content,
+            "lxml",
         )
         available_slots = [
             button.contents[0].strip()
