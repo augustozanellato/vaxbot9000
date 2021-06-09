@@ -3,6 +3,8 @@
 ## Prerequisites
 - Python 3.9
 - [Poetry](https://python-poetry.org/)
+### Browser spawning prerequisites
+Needed only if the config key `spawn_new_browser_on_slot_found` is set to `true`
 - [latest version of geckodriver](https://github.com/mozilla/geckodriver/releases/tag/v0.29.1)
 - Firefox
 
